@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { useListMajors } from "@workspace/api-client-react";
 import { Search, Briefcase, Wallet, ArrowRight } from "lucide-react";
+import { formatVND } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -109,7 +110,7 @@ export default function Majors() {
                       <Wallet className="w-4 h-4 text-green-600 shrink-0" />
                       <span>
                         {major.salary_range_min && major.salary_range_max 
-                          ? `${major.salary_range_min} - ${major.salary_range_max} triệu/tháng`
+                          ? `${formatVND(major.salary_range_min)} - ${formatVND(major.salary_range_max)}/tháng`
                           : 'Mức lương: Đang cập nhật'}
                       </span>
                     </div>

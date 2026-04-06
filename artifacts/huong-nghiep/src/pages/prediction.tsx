@@ -126,11 +126,29 @@ export default function Prediction() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="A00">A00 (Toán, Lý, Hóa)</SelectItem>
-                            <SelectItem value="A01">A01 (Toán, Lý, Anh)</SelectItem>
-                            <SelectItem value="B00">B00 (Toán, Hóa, Sinh)</SelectItem>
-                            <SelectItem value="C00">C00 (Toán, Sinh, Văn)</SelectItem>
-                            <SelectItem value="D01">D01 (Toán, Văn, Anh)</SelectItem>
+                            <SelectItem value="A00">A00 — Toán, Lý, Hóa</SelectItem>
+                            <SelectItem value="A01">A01 — Toán, Lý, Anh</SelectItem>
+                            <SelectItem value="A02">A02 — Toán, Lý, Sinh</SelectItem>
+                            <SelectItem value="A05">A05 — Toán, Hóa, Sử</SelectItem>
+                            <SelectItem value="A08">A08 — Toán, Sử, Anh</SelectItem>
+                            <SelectItem value="A16">A16 — Toán, Khoa học TN, Anh</SelectItem>
+                            <SelectItem value="B00">B00 — Toán, Hóa, Sinh</SelectItem>
+                            <SelectItem value="B03">B03 — Toán, Sinh, Văn</SelectItem>
+                            <SelectItem value="B08">B08 — Toán, Sinh, Anh</SelectItem>
+                            <SelectItem value="C00">C00 — Văn, Sử, Địa</SelectItem>
+                            <SelectItem value="C01">C01 — Toán, Lý, Sử</SelectItem>
+                            <SelectItem value="C02">C02 — Toán, Hóa, Sử</SelectItem>
+                            <SelectItem value="C03">C03 — Toán, Sinh, Sử</SelectItem>
+                            <SelectItem value="C04">C04 — Toán, Văn, Địa</SelectItem>
+                            <SelectItem value="C14">C14 — Toán, Lý, Văn</SelectItem>
+                            <SelectItem value="D01">D01 — Toán, Văn, Anh</SelectItem>
+                            <SelectItem value="D07">D07 — Toán, Hóa, Anh</SelectItem>
+                            <SelectItem value="D08">D08 — Toán, Sinh, Anh</SelectItem>
+                            <SelectItem value="D09">D09 — Toán, Sử, Anh</SelectItem>
+                            <SelectItem value="D10">D10 — Toán, Địa, Anh</SelectItem>
+                            <SelectItem value="D14">D14 — Văn, Sử, Anh</SelectItem>
+                            <SelectItem value="D15">D15 — Văn, Địa, Anh</SelectItem>
+                            <SelectItem value="D90">D90 — Toán, KHTN, Anh</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />

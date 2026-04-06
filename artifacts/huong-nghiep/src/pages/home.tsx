@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { useGetStatsSummary, useGetTrendingMajors } from "@workspace/api-client-react";
 import { Search, GraduationCap, BookOpen, MessagesSquare, ArrowRight, Sparkles, Target, TrendingUp } from "lucide-react";
+import { formatVND } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -116,7 +117,7 @@ export default function Home() {
                     <div>
                       <p className="text-xs text-muted-foreground mb-1">Mức lương trung bình</p>
                       <p className="font-semibold text-foreground">
-                        {major.avg_salary ? `${major.avg_salary} triệu/tháng` : "Đang cập nhật"}
+                        {major.avg_salary ? `${formatVND(major.avg_salary)}/tháng` : "Đang cập nhật"}
                       </p>
                     </div>
                     <div className="flex items-center gap-1 text-xs text-muted-foreground bg-muted px-2 py-1 rounded">

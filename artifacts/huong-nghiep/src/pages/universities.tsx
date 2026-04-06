@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { useDebounce } from "@/hooks/use-debounce";
+import { formatVND } from "@/lib/utils";
 
 export default function Universities() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -113,8 +114,8 @@ export default function Universities() {
                       <Wallet className="w-4 h-4 text-green-600 shrink-0" />
                       <span>
                         {uni.tuition_min && uni.tuition_max 
-                          ? `${uni.tuition_min} - ${uni.tuition_max} triệu/năm`
-                          : uni.tuition_max ? `Khoảng ${uni.tuition_max} triệu/năm`
+                          ? `${formatVND(uni.tuition_min)} - ${formatVND(uni.tuition_max)}/năm`
+                          : uni.tuition_max ? `Khoảng ${formatVND(uni.tuition_max)}/năm`
                           : 'Đang cập nhật'}
                       </span>
                     </div>

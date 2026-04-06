@@ -2,6 +2,7 @@ import { useParams, Link } from "wouter";
 import { useGetMajor } from "@workspace/api-client-react";
 import { getGetMajorQueryKey } from "@workspace/api-client-react";
 import { ArrowLeft, Briefcase, Wallet, Target, Sparkles, Building2 } from "lucide-react";
+import { formatVND } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -67,7 +68,7 @@ export default function MajorDetail() {
               <Wallet className="w-5 h-5" />
               <span>
                 {major.salary_range_min && major.salary_range_max 
-                  ? `${major.salary_range_min} - ${major.salary_range_max} triệu/tháng`
+                  ? `${formatVND(major.salary_range_min)} - ${formatVND(major.salary_range_max)}/tháng`
                   : 'Đang cập nhật mức lương'}
               </span>
             </div>
