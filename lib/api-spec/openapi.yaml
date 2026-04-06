@@ -3,20 +3,29 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Career guidance API for Vietnamese high school students
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: universities
+    description: University and major information
+  - name: majors
+    description: Major and career information
+  - name: admission
+    description: Admission scores and predictions
+  - name: forum
+    description: Community forum posts
+  - name: stats
+    description: Statistics and summaries
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +33,273 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /universities:
+    get:
+      operationId: listUniversities
+      tags: [universities]
+      summary: List universities with filters
+      parameters:
+        - name: region
+          in: query
+          schema:
+            type: string
+        - name: major_group
+          in: query
+          schema:
+            type: string
+        - name: max_tuition
+          in: query
+          schema:
+            type: number
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of universities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/University"
+
+  /universities/{id}:
+    get:
+      operationId: getUniversity
+      tags: [universities]
+      summary: Get university details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: University details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UniversityDetail"
+        "404":
+          description: Not found
+
+  /majors:
+    get:
+      operationId: listMajors
+      tags: [majors]
+      summary: List majors/careers
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of majors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Major"
+
+  /majors/{id}:
+    get:
+      operationId: getMajor
+      tags: [majors]
+      summary: Get major/career details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Major details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MajorDetail"
+        "404":
+          description: Not found
+
+  /admission/scores:
+    get:
+      operationId: listAdmissionScores
+      tags: [admission]
+      summary: Get admission scores by university and major
+      parameters:
+        - name: university_id
+          in: query
+          schema:
+            type: integer
+        - name: major_id
+          in: query
+          schema:
+            type: integer
+        - name: year
+          in: query
+          schema:
+            type: integer
+        - name: exam_block
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Admission scores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdmissionScore"
+
+  /admission/predict:
+    post:
+      operationId: predictAdmission
+      tags: [admission]
+      summary: Predict admission chances based on student score
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PredictAdmissionBody"
+      responses:
+        "200":
+          description: Prediction results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdmissionPrediction"
+
+  /forum/posts:
+    get:
+      operationId: listForumPosts
+      tags: [forum]
+      summary: List forum posts
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Forum posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ForumPost"
+    post:
+      operationId: createForumPost
+      tags: [forum]
+      summary: Create a forum post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateForumPostBody"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForumPost"
+
+  /forum/posts/{id}:
+    get:
+      operationId: getForumPost
+      tags: [forum]
+      summary: Get a forum post with replies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Forum post with replies
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForumPostDetail"
+        "404":
+          description: Not found
+
+  /forum/posts/{id}/replies:
+    post:
+      operationId: createForumReply
+      tags: [forum]
+      summary: Reply to a forum post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateForumReplyBody"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForumReply"
+
+  /stats/summary:
+    get:
+      operationId: getStatsSummary
+      tags: [stats]
+      summary: Get overall stats summary
+      responses:
+        "200":
+          description: Summary stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatsSummary"
+
+  /stats/trending-majors:
+    get:
+      operationId: getTrendingMajors
+      tags: [stats]
+      summary: Get trending majors by interest
+      responses:
+        "200":
+          description: Trending majors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TrendingMajor"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +310,294 @@ components:
       required:
         - status
 
+    University:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        short_name:
+          type: string
+        region:
+          type: string
+        address:
+          type: string
+        website:
+          type: string
+        tuition_min:
+          type: number
+        tuition_max:
+          type: number
+        type:
+          type: string
+          description: "public or private"
+        logo_url:
+          type: string
+        description:
+          type: string
+      required:
+        - id
+        - name
+        - short_name
+        - region
+        - type
+
+    UniversityDetail:
+      allOf:
+        - $ref: "#/components/schemas/University"
+        - type: object
+          properties:
+            majors_offered:
+              type: array
+              items:
+                $ref: "#/components/schemas/Major"
+            recent_scores:
+              type: array
+              items:
+                $ref: "#/components/schemas/AdmissionScore"
+
+    Major:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        category:
+          type: string
+        exam_blocks:
+          type: array
+          items:
+            type: string
+          description: "e.g. A00, A01, D01"
+        salary_range_min:
+          type: number
+        salary_range_max:
+          type: number
+        job_title:
+          type: string
+        description:
+          type: string
+      required:
+        - id
+        - name
+        - category
+        - exam_blocks
+
+    MajorDetail:
+      allOf:
+        - $ref: "#/components/schemas/Major"
+        - type: object
+          properties:
+            skills_needed:
+              type: array
+              items:
+                type: string
+            career_paths:
+              type: array
+              items:
+                type: string
+            top_universities:
+              type: array
+              items:
+                $ref: "#/components/schemas/University"
+
+    AdmissionScore:
+      type: object
+      properties:
+        id:
+          type: integer
+        university_id:
+          type: integer
+        university_name:
+          type: string
+        major_id:
+          type: integer
+        major_name:
+          type: string
+        exam_block:
+          type: string
+        year:
+          type: integer
+        score:
+          type: number
+        notes:
+          type: string
+      required:
+        - id
+        - university_id
+        - university_name
+        - major_id
+        - major_name
+        - exam_block
+        - year
+        - score
+
+    PredictAdmissionBody:
+      type: object
+      properties:
+        score:
+          type: number
+          description: Student's practice test score
+        exam_block:
+          type: string
+          description: "Exam combination e.g. A00, A01, D01"
+        region_bonus:
+          type: number
+          description: Priority bonus points (0, 0.5, 1, 1.5, 2)
+      required:
+        - score
+        - exam_block
+
+    AdmissionPrediction:
+      type: object
+      properties:
+        university_id:
+          type: integer
+        university_name:
+          type: string
+        major_id:
+          type: integer
+        major_name:
+          type: string
+        latest_score:
+          type: number
+        student_score:
+          type: number
+        chance:
+          type: string
+          description: "safe | borderline | risky"
+        score_gap:
+          type: number
+      required:
+        - university_id
+        - university_name
+        - major_id
+        - major_name
+        - latest_score
+        - student_score
+        - chance
+        - score_gap
+
+    ForumPost:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        content:
+          type: string
+        author_name:
+          type: string
+        category:
+          type: string
+        reply_count:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - content
+        - author_name
+        - category
+        - reply_count
+        - created_at
+
+    ForumReply:
+      type: object
+      properties:
+        id:
+          type: integer
+        post_id:
+          type: integer
+        content:
+          type: string
+        author_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+      required:
+        - id
+        - post_id
+        - content
+        - author_name
+        - created_at
+
+    ForumPostDetail:
+      allOf:
+        - $ref: "#/components/schemas/ForumPost"
+        - type: object
+          properties:
+            replies:
+              type: array
+              items:
+                $ref: "#/components/schemas/ForumReply"
+
+    CreateForumPostBody:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        author_name:
+          type: string
+        category:
+          type: string
+      required:
+        - title
+        - content
+        - author_name
+        - category
+
+    CreateForumReplyBody:
+      type: object
+      properties:
+        content:
+          type: string
+        author_name:
+          type: string
+      required:
+        - content
+        - author_name
+
+    StatsSummary:
+      type: object
+      properties:
+        total_universities:
+          type: integer
+        total_majors:
+          type: integer
+        total_forum_posts:
+          type: integer
+        total_predictions_made:
+          type: integer
+      required:
+        - total_universities
+        - total_majors
+        - total_forum_posts
+        - total_predictions_made
+
+    TrendingMajor:
+      type: object
+      properties:
+        major_id:
+          type: integer
+        major_name:
+          type: string
+        category:
+          type: string
+        search_count:
+          type: integer
+        avg_salary:
+          type: number
+      required:
+        - major_id
+        - major_name
+        - category
+        - search_count
