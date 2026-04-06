@@ -1,13 +1,16 @@
 import { db, universitiesTable, majorsTable, admissionScoresTable, forumPostsTable, forumRepliesTable } from "@workspace/db";
 
 async function seed() {
-  console.log("Seeding database...");
+  console.log("Checking database state...");
 
-  await db.delete(forumRepliesTable);
-  await db.delete(forumPostsTable);
-  await db.delete(admissionScoresTable);
-  await db.delete(majorsTable);
-  await db.delete(universitiesTable);
+  const existing = await db.select().from(universitiesTable).limit(1);
+
+  if (existing.length > 0) {
+    console.log(`Database already has data — skipping seed.`);
+    process.exit(0);
+  }
+
+  console.log("Seeding database...");
 
   const universities = await db.insert(universitiesTable).values([
     // Miền Bắc - Công lập
