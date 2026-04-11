@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "1z0COrwkyI_mGJ5knHsh9"
+uri = "file://exports/qr-huong-nghiep.png"
+type = "image"
+title = "Mã QR - Hướng Nghiệp Thông Minh"
