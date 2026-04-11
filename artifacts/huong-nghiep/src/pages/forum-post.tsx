@@ -37,7 +37,7 @@ export default function ForumPost() {
     query: { enabled: !!postId, queryKey: getGetForumPostQueryKey(postId) },
   });
 
-  const createReply = useCreateForumReply(postId);
+  const createReply = useCreateForumReply();
 
   const form = useForm<ReplyFormValues>({
     resolver: zodResolver(replySchema),
@@ -49,7 +49,7 @@ export default function ForumPost() {
 
   const onSubmit = (data: ReplyFormValues) => {
     createReply.mutate(
-      { data },
+      { id: postId, data },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetForumPostQueryKey(postId) });
